@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Dashboard</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mui/material@5.15.12/dist/mui-material.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://unpkg.com/topojson-client@3"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="logo">
+                <img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=32&h=32&dpr=1" alt="Profile" class="profile-img">
+                <div class="user-info">
+                    <h3>John Thomson</h3>
+                    <p>App Developer</p>
+                </div>
+            </div>
+            <div class="menu">
+                <a href="#" class="menu-item active">
+                    <span class="material-icons">dashboard</span>
+                    Dashboards
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="material-icons">apps</span>
+                    Apps
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="material-icons">widgets</span>
+                    Widgets
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="material-icons">description</span>
+                    Forms
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="material-icons">insert_chart</span>
+                    Charts
+                </a>
+            </div>
+        </nav>
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-bar">
+                    <span class="material-icons">search</span>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <div class="top-bar-actions">
+                    <button class="icon-button">
+                        <span class="material-icons">dark_mode</span>
+                    </button>
+                   
+                    <button class="icon-button">
+                        <span class="material-icons">notifications</span>
+                    </button>
+                    <button class="icon-button">
+                        <span class="material-icons">settings</span>
+                    </button>
+                </div>
+            </header>
+            <div class="dashboard-header">
+                <h1>Sales Dashboard</h1>
+                <div class="date-picker-container">
+                    <button class="mui-button date-selector" id="datePickerBtn">
+                        <span class="material-icons">date_range</span>
+                        <span id="selectedDate">Select Date</span>
+                    </button>
+                    <div class="date-picker-dropdown" id="datePickerDropdown">
+                        <div class="date-picker-header">
+                            <div class="date-range-inputs">
+                                <div class="date-input-group">
+                                    <label>Start Date</label>
+                                    <input type="date" id="startDate">
+                                </div>
+                                <div class="date-input-group">
+                                    <label>End Date</label>
+                                    <input type="date" id="endDate">
+                                </div>
+                            </div>
+                            <div class="date-picker-presets">
+                                <button class="preset-btn" data-days="7">Last 7 Days</button>
+                                <button class="preset-btn" data-days="30">Last 30 Days</button>
+                                <button class="preset-btn" data-days="90">Last 90 Days</button>
+                            </div>
+                        </div>
+                        <div class="date-picker-footer">
+                            <button class="cancel-btn">Cancel</button>
+                            <button class="apply-btn">Apply</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <span class="material-icons">shopping_cart</span>
+                    </div>
+                    <div class="stat-info">
+                        <h3>All Orders</h3>
+                        <div class="stat-number">3257</div>
+                        <div class="stat-change negative">
+                            <span class="material-icons">arrow_downward</span>
+                            43.2% than last month
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange">
+                        <span class="material-icons">pending</span>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Pending Orders</h3>
+                        <div class="stat-number">1658</div>
+                        <div class="stat-change positive">
+                            <span class="material-icons">arrow_upward</span>
+                            15.8% than last month
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <span class="material-icons">replay</span>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Refund Request</h3>
+                        <div class="stat-number">168</div>
+                        <div class="stat-change neutral">
+                            0.8% than last month
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-grid">
+                <div class="world-map-card">
+                    <h2>Country Base Profit</h2>
+                    <div class="world-map" id="world-map"></div>
+                    <div class="country-list">
+                        <div class="country-item" data-country="USA">
+                            <img src="https://flagcdn.com/w20/us.png" alt="USA">
+                            <span>USA</span>
+                            <span class="amount">$519.75</span>
+                        </div>
+                        <div class="country-item" data-country="China">
+                            <img src="https://flagcdn.com/w20/cn.png" alt="China">
+                            <span>China</span>
+                            <span class="amount">$248.07</span>
+                        </div>
+                        <div class="country-item" data-country="Germany">
+                            <img src="https://flagcdn.com/w20/de.png" alt="Germany">
+                            <span>Germany</span>
+                            <span class="amount">$190.57</span>
+                        </div>
+                        <div class="country-item" data-country="Russia">
+                            <img src="https://flagcdn.com/w20/ru.png" alt="Russia">
+                            <span>Russia</span>
+                            <span class="amount">$173.25</span>
+                        </div>
+                        <div class="country-item" data-country="India">
+                            <img src="https://flagcdn.com/w20/in.png" alt="India">
+                            <span>India</span>
+                            <span class="amount">$63.00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="trophy">
+                        <span class="material-icons">emoji_events</span>
+                    </div>
+                    <h2>Congratulations John!</h2>
+                    <div class="achievement-amount">$1000k</div>
+                    <p>You have done 99.9% target sales reached today. Keep going to reach your target.</p>
+                    <div class="timestamp">Today 20 minutes ago</div>
+                </div>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>Today Revenue</h3>
+                    <div class="chart-value">$897k</div>
+                    <div class="chart-placeholder"></div>
+                    <img src="./1.png" height="100px" width="300px">
+                </div>
+                <div class="chart-card">
+                    <h3>Unique Visitors</h3>
+                    <div class="chart-value">5,896</div>
+                    <div class="chart-placeholder"></div>
+                    <img src="./2.png" height="100px" width="300px">
+
+                </div>
+                <div class="chart-card">
+                    <h3>Expenses</h3>
+                    <div class="chart-value">$1,678</div>
+                    <div class="chart-placeholder"></div>
+                    <img src="./3.png" height="100px" width="300px">
+
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+      
